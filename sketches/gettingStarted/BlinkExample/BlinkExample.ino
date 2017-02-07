@@ -18,6 +18,10 @@
   
   modified 8 Sep 2016
   by Colby Newman
+
+  Example circuit at 
+  https://circuits.io/circuits/3919086-blink-circuit
+  https://circuits.io/circuits/3928500-led-control
 */
 
 
