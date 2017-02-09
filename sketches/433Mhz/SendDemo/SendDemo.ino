@@ -31,15 +31,12 @@ void setup() {
 
 void loop() {
   /* Same switch as above, but using decimal code */
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1000);
-  mySwitch.switchOff("11111", "00010");
-  mySwitch.send(12047364, 24);
   digitalWrite(LED_BUILTIN, HIGH);
+  mySwitch.switchOff("11111", "00010");
+  mySwitch.send(12047363, 24);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
   delay(3000);  
-   mySwitch.switchOff("11111", "00010");
-  mySwitch.send(12047372, 24);
-   delay(3000);
   
  
 }
