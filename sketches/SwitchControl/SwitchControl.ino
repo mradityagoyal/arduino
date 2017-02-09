@@ -22,7 +22,7 @@
 #define I2C_REGISTER_NOT_SPECIFIED  -1
 
 //custom command for tranmit code. 
-#define TRANSMIT_CODE 0x42
+#define MAGICFLY_CONTROL 0x42
 
 //create RC Switch obj. 
 RCSwitch mySwitch = RCSwitch();
