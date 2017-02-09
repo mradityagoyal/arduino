@@ -474,6 +474,10 @@ void sysexCallback(byte command, byte argc, byte *argv)
   unsigned int delayTime;
 
   switch (command) {
+    //user defined command to control magicfly.
+    case MAGICFLY_CONTROL:
+    sendMagicFlyCode();
+    break;
     case I2C_REQUEST:
       mode = argv[1] & I2C_READ_WRITE_MODE_MASK;
       if (argv[1] & I2C_10BIT_ADDRESS_MODE_MASK) {
@@ -742,6 +746,13 @@ void systemResetCallback()
 
 void setup()
 {
+  // Transmitter is connected to Arduino Pin #12  
+  mySwitch.enableTransmit(12);
+  pinMode(LED_BUILTIN, OUTPUT);
+  // Optional set pulse length.
+  mySwitch.setPulseLength(170);
+
+   
   Firmata.setFirmwareVersion(FIRMATA_FIRMWARE_MAJOR_VERSION, FIRMATA_FIRMWARE_MINOR_VERSION);
 
   Firmata.attach(ANALOG_MESSAGE, analogWriteCallback);
@@ -809,3 +820,12 @@ void loop()
   serialFeature.update();
 #endif
 }
+
+void sendMagicFlyCode(){
+  mySwitch.switchOff("11111", "00010");
+  mySwitch.send(12047363, 24);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500); 
+  digitalWrite(LED_BUILTIN, LOW);
+}
+
