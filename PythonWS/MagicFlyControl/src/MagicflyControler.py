@@ -11,7 +11,8 @@ from PyMata import pymata as pm
 
 class MagicflyBoard:
     BOARD_LED = 13
-    MAGICFLY_TX_CODE = 0x42
+    
+    MAGICFLY_TX_CODE = 0x42         # sysex command code to send code to magicfly
     MAGICFLY_SET_PULSE_WIDTH = 0x43 # sets the pulse width. TODO:
     
     
