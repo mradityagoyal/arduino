@@ -2,8 +2,6 @@
 Created on Feb 10, 2017
 
 @author: agoyal
-
-
 '''
 
 import time
@@ -17,8 +15,8 @@ class MagicflyBoard:
     
     
     def __init__(self, port):
-#         print("MagicflyBoard init")
-        self.board = pm.PyMata(port, verbose=True)
+        pass
+#         self.board = pm.PyMata(port, verbose=True)
     
     def sendCode(self, code):
         """
@@ -41,9 +39,8 @@ class MagicflyBoard:
         self.board._command_handler.send_sysex(self.MAGICFLY_SET_PULSE_WIDTH, pulseWidth)
     
     def echo_ping(self, msg):
-        print("echoing: {}".format(msg))
-#         self.port = port
-
-
-mfBrd = MagicflyBoard("Haha")
-mfBrd.echo_ping("hellow World")
+        '''
+        prints a string and echoes it back. 
+        '''
+#         print("echoing: {}".format(msg))
+        return msg
