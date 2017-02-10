@@ -1,6 +1,7 @@
 *.class
 *.log
 .metadata
+__pycache__
 # sbt specific
 .cache
 .history
