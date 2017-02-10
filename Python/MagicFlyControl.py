@@ -7,31 +7,56 @@ import sys
 import signal
 
 from PyMata.pymata import PyMata
+from binascii import unhexlify
 
 
-# create a PyMata instance
-board = PyMata("COM", verbose=True)
+# Digital pin 13 is connected to an LED. If you are running this script with
+# an Arduino UNO no LED is needed (Pin 13 is connected to an internal LED).
+BOARD_LED = 13
+MAGICFLY_CONTROL = 0x42
 
-# you may need to press ctrl c twice
+# Create a PyMata instance
+board = PyMata("/COM3", verbose=True)
+
+def toFirmataFormat(str):
+    data = bytearray()
+    for b in str.encode('utf8'):
+        data.append(b & 0x7F)
+        data.append((b >> 7) & 0x7F)
+    return data
+
+def long_to_bytes (val):
+    return [val & 0x7f, (val & 0x7F00)>>7, (val & 0x7f0000) >> 16, (val & 0x7f0000)>>24]
+
 def signal_handler(sig, frame):
     print('You pressed Ctrl+C')
     if board is not None:
         board.reset()
-        board.close()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
 
-# Configure the trigger and echo pins
+# Set digital pin 13 to be an output port
+board.set_pin_mode(BOARD_LED, board.OUTPUT, board.DIGITAL)
 
-time.sleep(1)
+time.sleep(2)
+print("Blinking LED on pin 13 for 10 times ...")
 
-# Create a forever loop that will print out the sonar data for the PING device
+# Blink for 10 times
+for x in range(2):
+    print(x + 1)
+    # Set the output to 1 = High
+    board.digital_write(BOARD_LED, 1)
+    code = "101101111101010000000100".encode('utf8')
+    board._command_handler.send_sysex(MAGICFLY_CONTROL, code)
+    # Wait a half second between toggles.
+    time.sleep(.5)
+    # Set the output to 0 = Low
+    board.digital_write(BOARD_LED, 0)
+    time.sleep(.5)
 
-while 1:
-    data = board.digital_write(13, 1)
-    print(str(data[2]) + ' centimeters')
-    time.sleep(.2)
+# Close PyMata when we are done
+board.close()
 
 # TODO: add pin for transmission.
 
@@ -42,6 +67,7 @@ def magicfly_control(self, data):
     :param data: data to send
     :return:
     """
+
 
 
 def transmit_magicfly():

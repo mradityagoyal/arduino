@@ -54,6 +54,8 @@ unsigned long currentMillis;        // store the current value from millis()
 unsigned long previousMillis;       // for comparison with currentMillis
 unsigned int samplingInterval = 19; // how often to run the main loop (in ms)
 
+static char * dec2binWzerofill(unsigned long Dec, unsigned int bitLength);
+
 /* i2c data */
 struct i2c_device_info {
   byte addr;
@@ -472,11 +474,11 @@ void sysexCallback(byte command, byte argc, byte *argv)
   byte data;
   int slaveRegister;
   unsigned int delayTime;
-
+  unsigned long cd = 0;
   switch (command) {
-    //user defined command to control magicfly.
     case MAGICFLY_CONTROL:
-    sendMagicFlyCode();
+      Firmata.sendString("callback entry");
+      magicFlyCallback(argv);
     break;
     case I2C_REQUEST:
       mode = argv[1] & I2C_READ_WRITE_MODE_MASK;
@@ -763,6 +765,7 @@ void setup()
   Firmata.attach(SET_DIGITAL_PIN_VALUE, setPinValueCallback);
   Firmata.attach(START_SYSEX, sysexCallback);
   Firmata.attach(SYSTEM_RESET, systemResetCallback);
+  
 
   // to use a port other than Serial, such as Serial1 on an Arduino Leonardo or Mega,
   // Call begin(baud) on the alternate serial port and pass it to Firmata to begin like this:
@@ -821,11 +824,21 @@ void loop()
 #endif
 }
 
-void sendMagicFlyCode(){
+//void sendMagicFlyCode(unsigned long code){
+//  mySwitch.switchOff("11111", "00010");
+//  char *data2 = dec2binWzerofill(code, 24);
+//  mySwitch.send(data2);
+//  digitalWrite(LED_BUILTIN, HIGH);
+//  delay(500); 
+//  digitalWrite(LED_BUILTIN, LOW);
+//}
+void magicFlyCallback(char *data)
+{
   mySwitch.switchOff("11111", "00010");
-  mySwitch.send(12047363, 24);
+  mySwitch.send(data);
   digitalWrite(LED_BUILTIN, HIGH);
   delay(500); 
   digitalWrite(LED_BUILTIN, LOW);
 }
+
 

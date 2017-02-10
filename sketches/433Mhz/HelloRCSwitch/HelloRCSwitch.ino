@@ -28,6 +28,8 @@ void loop() {
       Serial.print("bit ");
       Serial.print("Protocol: ");
       Serial.println( mySwitch.getReceivedProtocol() );
+      Serial.print("Raw Value");
+      output(mySwitch.getReceivedRawdata());
     }
 
     mySwitch.resetAvailable();
