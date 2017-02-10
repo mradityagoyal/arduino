@@ -11,7 +11,7 @@ import magicfly_resource
 api = application = falcon.API()
 
 #add resource. 
-magicfly = magicfly_resource.MagicflyResource()
+magicfly = magicfly_resource.MagicflyResource("COM3")
 #add route. 
 
 api.add_route('/magicfly/transmit/{code}', magicfly)

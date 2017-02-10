@@ -15,6 +15,7 @@ class MagicflyBoard:
     
     
     def __init__(self, port):
+        print("MagicflyBoard init, port: {}".format(port))
         pass
 #         self.board = pm.PyMata(port, verbose=True)
     
