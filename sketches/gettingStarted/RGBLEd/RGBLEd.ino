@@ -21,14 +21,24 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  setColor(255,0,0);
-  delay(1000);
-
-  setColor(0,255,0);
-  delay(1000);
-
-  setColor(0,0,255);
-  delay(1000);
+  int flag = 0;
+  while(true){
+    analogWrite(RED_PIN, 255);
+    analogWrite(GREEN_PIN, 0);
+    analogWrite(BLUE_PIN, 0);
+    delay(1000);
+    if(flag <= 0){
+      analogWrite(GREEN_PIN, 255);
+      delay(1000);
+      flag++;
+    }
+    else{
+      analogWrite(BLUE_PIN, 255);
+      delay(1000);
+      flag--;
+    }
+  }
+  
 
 
 }
